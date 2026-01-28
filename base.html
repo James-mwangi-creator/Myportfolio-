@@ -1,0 +1,635 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James Mwangi - Python/Django Developer</title>
+    <style>
+        /* ===== CSS RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.9)),
+                url('{% static "images/portfolio.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            color: #f0f0f0;
+            line-height: 1.6;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== VERTICAL NAVIGATION ===== */
+        .vertical-nav {
+            width: 280px;
+            background: rgba(20, 25, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .tagline {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* ===== NAVIGATION LINKS ===== */
+        .nav-links {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 0.9rem 1.2rem;
+            color: #cbd5e0;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #667eea;
+            transform: translateX(-10px);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: white;
+            padding-left: 1.5rem;
+        }
+
+        .nav-links a:hover:before {
+            transform: translateX(0);
+        }
+
+        .nav-links a.active {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .nav-links a.active:before {
+            transform: translateX(0);
+        }
+
+        /* ===== NAV FOOTER ===== */
+        .nav-footer {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            color: #a0aec0;
+        }
+
+        .social-links {
+            margin-top: 0.8rem;
+        }
+
+        .social-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 0.3rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 4rem;
+            max-width: 900px;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .highlight {
+            color: #667eea;
+            background: none;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #a0aec0;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: #cbd5e0;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        /* ===== SKILLS TAGS ===== */
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .skill-tag {
+            background: rgba(102, 126, 234, 0.15);
+            color: #667eea;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        /* ===== ACTION BUTTONS ===== */
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* ===== CONTACT LINKS ===== */
+        .contact-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-bottom: 1px dotted transparent;
+        }
+
+        .contact-link:hover {
+            color: #764ba2;
+            border-bottom: 1px dotted #764ba2;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-buttons a {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .vertical-nav {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 240px;
+                padding: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .vertical-nav {
+                position: static;
+                width: 100%;
+                height: auto;
+                padding: 1.5rem;
+            }
+            
+            .nav-header {
+                margin-bottom: 1.5rem;
+            }
+            
+            .nav-links {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                flex-wrap: wrap;
+                margin: 1.5rem 0;
+            }
+            
+            .nav-links li {
+                margin-bottom: 0;
+            }
+            
+            .nav-links a {
+                padding: 0.6rem 1rem;
+            }
+            
+            .nav-links a:before {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+                text-align: center;
+            }
+            
+            .hero-subtitle {
+                text-align: center;
+            }
+            
+            .action-buttons, .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .skills-tags {
+                justify-content: center;
+            }
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            display: none;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        section:target {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+
+        /* ===== SERVICES & PORTFOLIO CARDS ===== */
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+
+        .service-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .price-tag {
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        /* ===== GITHUB LINK ===== */
+        .github-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .github-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Side: Vertical Navigation -->
+        <nav class="vertical-nav">
+            <div class="nav-header">
+                <div class="avatar">JM</div>
+                <h3>James Mwangi</h3>
+                <p class="tagline">Python & Django Developer</p>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <div class="nav-footer">
+                <p>Available for freelance work</p>
+                <div class="social-links">
+                    <a href="https://github.com/James-mwangi-creator" target="_blank">GitHub</a> • 
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a> • 
+                    <a href="mailto:jimmymacharia08@gmail.com">Email</a>
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+                    Call/WhatsApp: <a href="tel:+254768298352" style="color: #667eea;">+254 768 298 352</a>
+                </p>
+            </div>
+        </nav>
+
+        <!-- Right Side: Main Content -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <section id="home" class="hero-section">
+                <h1 class="hero-title">Hello, I'm <span class="highlight">James Mwangi</span></h1>
+                <h2 class="hero-subtitle">Python & Django Developer from Kenya</h2>
+                
+                <div class="hero-description">
+                    <p>A young and passionate Kenyan programmer specializing in backend development with Python and Django. I build functional web applications, APIs, and automation solutions.</p>
+                    
+                    <div class="skills-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Django</span>
+                        <span class="skill-tag">HTML/CSS</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">REST APIs</span>
+                        <span class="skill-tag">Git</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="#contact" class="btn-primary">Hire Me</a>
+                    <a href="#portfolio" class="btn-secondary">View My Work</a>
+                </div>
+            </section>
+            
+            <!-- Services Section -->
+            <section id="services">
+                <h2>My Services</h2>
+                <div class="service-card">
+                    <h3>Fix Django Bugs</h3>
+                    <p>Debug errors, fix broken features, or optimize slow code in your Django project.</p>
+                    <p class="price-tag">Starting at KSh 800</p>
+                </div>
+                <div class="service-card">
+                    <h3>Python Scripting</h3>
+                    <p>Automate tasks, data processing, file conversion, or web scraping with Python.</p>
+                    <p class="price-tag">Starting at KSh 1,200</p>
+                </div>
+                <div class="service-card">
+                    <h3>Website Updates</h3>
+                    <p>Add new pages, forms, or features to your existing Django/HTML website.</p>
+                    <p class="price-tag">Starting at KSh 1,500</p>
+                </div>
+            </section>
+            
+            <!-- Portfolio Section -->
+            <section id="portfolio">
+                <h2>My Portfolio</h2>
+                <div class="service-card">
+                    <h3>This Portfolio Website</h3>
+                    <p>Built with Django, HTML/CSS. Fully responsive with contact form functionality.</p>
+                    <p><strong>Tech:</strong> Python, Django, HTML, CSS</p>
+                    <a href="https://github.com/James-mwangi-creator" target="_blank" class="github-link">
+                        → View my GitHub: James-mwangi-creator
+                    </a>
+                </div>
+                <div class="service-card">
+                    <h3>Django Blog System (Coming Soon)</h3>
+                    <p>A blog with user authentication, CRUD operations, and categories.</p>
+                    <p><strong>Tech:</strong> Django, SQLite, Authentication</p>
+                </div>
+            </section>
+            
+            <!-- Contact Section -->
+            <section id="contact">
+                <h2>Contact Me</h2>
+                <div class="service-card">
+                    <h3>Ready to work together?</h3>
+                    
+                    <!-- Email -->
+                    <p>
+                        <strong>📧 Email:</strong><br>
+                        <a href="mailto:jimmymacharia08@gmail.com?subject=Portfolio Inquiry&body=Hello James, I saw your portfolio and would like to discuss:" 
+                           class="contact-link">
+                           jimmymacharia08@gmail.com
+                        </a>
+                    </p>
+                    
+                    <!-- Phone -->
+                    <p style="margin-top: 1rem;">
+                        <strong>📱 Phone/WhatsApp:</strong><br>
+                        <a href="tel:+254768298352" class="contact-link">
+                            +254 768 298 352
+                        </a>
+                    </p>
+                    
+                    <!-- Location -->
+                    <p style="margin-top: 1rem;">
+                        <strong>📍 Location:</strong><br>
+                        Nairobi, Kenya (Remote work available)
+                    </p>
+                    
+                    <!-- Quick Contact Buttons -->
+                    <div class="contact-buttons">
+                        <a href="mailto:jimmymacharia08@gmail.com?subject=Job Opportunity&body=Dear James,%0A%0AI would like to discuss a project with you:" 
+                           class="btn-primary">
+                           📧 Send Email
+                        </a>
+                        
+                        <a href="https://wa.me/254768298352?text=Hello James, I saw your portfolio and am interested in your services." 
+                           target="_blank" class="btn-secondary">
+                           💬 WhatsApp
+                        </a>
+                    </div>
+                    
+                    <p class="price-tag" style="margin-top: 1.5rem;">Response time: Within 24 hours</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Simple JavaScript for navigation -->
+    <script>
+        // Show home section by default
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('home').style.display = 'block';
+            
+            // Handle navigation clicks
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    // Hide all sections
+                    document.querySelectorAll('main section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show target section
+                    const targetSection = document.querySelector(targetId);
+                    if(targetSection) {
+                        targetSection.style.display = 'block';
+                    }
+                    
+                    // Update active link
+                    document.querySelectorAll('.nav-links a').forEach(l => {
+                        l.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Smooth scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
